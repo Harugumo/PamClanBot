@@ -11,6 +11,7 @@ declare global {
         interface ProcessEnv {
             CLIENT_ID: string;
             TOKEN: string;
+            AUTORIZE_ROLE: string;
         }
     }
 }
