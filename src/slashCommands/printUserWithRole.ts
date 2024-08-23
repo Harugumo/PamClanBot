@@ -41,12 +41,13 @@ export const command: SlashCommand = {
             member.roles.cache.has(role.id)
         );
 
-        let message = `Membres avec le rôle **${role.name}**:\n`;
+        let message = `Membres avec le rôle **${role.name}** :\n`;
         if (membersWithRole.size === 0) {
             message += "Aucun membre trouvé avec ce rôle.";
         } else {
+            let index: number = 1;
             membersWithRole.forEach((member) => {
-                message += `- ${member.user.tag}\n`;
+                message += `> ${index++} — <@${member.user.id}>\n`;
             });
         }
 

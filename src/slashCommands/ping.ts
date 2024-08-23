@@ -3,15 +3,15 @@ import { SlashCommand } from "../../types";
 import { EmbedBuilder } from "@discordjs/builders";
 
 export const command: SlashCommand = {
-    name: "ping",
+    name: "pingpam",
     data: new SlashCommandBuilder()
-        .setName("ping")
-        .setDescription("Replies with Pong!"),
+        .setName("pingpam")
+        .setDescription("PamBot replies with Boum!"),
     execute: async (interaction) => {
         await interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                    .setAuthor({ name: "Pong!" })
+                    .setAuthor({ name: "Boum!" })
                     .setDescription(`Latency: ${interaction.client.ws.ping}ms`)
                     .setColor([0, 255, 0]),
             ],
