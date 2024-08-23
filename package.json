@@ -1,0 +1,20 @@
+{
+  "name": "quentin.perret",
+  "version": "1.0.0",
+  "description": "Un bot de test afin de récupérer des utilisateurs via leurs rôles",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Quentin PERRET",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5"
+  }
+}
