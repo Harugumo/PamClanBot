@@ -14,21 +14,28 @@ export const command: SlashCommand = {
                 .setRequired(true);
         }),
     execute: async (interaction) => {
-        const roleOption = interaction.options.get("role", true);
+        try {
+            const roleOption = interaction.options.get("role", true);
 
-        const role = await getRoleByName(interaction, String(roleOption.value));
-        const membersWithRole = await getMembersWithRole(interaction, role);
+            const role = await getRoleByName(
+                interaction,
+                String(roleOption.value)
+            );
+            const membersWithRole = await getMembersWithRole(interaction, role);
 
-        let message = `Membres avec le rôle **${role.name}** :\n`;
-        if (membersWithRole.size === 0) {
-            message += "Aucun membre trouvé avec ce rôle.";
-        } else {
-            let index: number = 1;
-            membersWithRole.forEach((member) => {
-                message += `> ${index++} — <@${member.user.id}>\n`;
-            });
+            let message = `Membres avec le rôle **${role.name}** :\n`;
+            if (membersWithRole.size === 0) {
+                message += "Aucun membre trouvé avec ce rôle.";
+            } else {
+                let index: number = 1;
+                membersWithRole.forEach((member) => {
+                    message += `> ${index++} — <@${member.user.id}>\n`;
+                });
+            }
+
+            await interaction.reply({ content: message });
+        } catch (error) {
+            console.error(error);
         }
-
-        await interaction.reply({ content: message });
     },
 };

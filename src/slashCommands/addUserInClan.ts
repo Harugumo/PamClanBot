@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../../types";
 import { getMemberById, getRoleByName, isAutorize } from "../tools/tools";
+import { clanLetterToFullName } from "../tools/clanLetterToFullName";
 
 export const command: SlashCommand = {
     name: "clan-add",
@@ -35,47 +36,9 @@ export const command: SlashCommand = {
 
             isAutorize(interaction, member, roleOfficier);
 
-            let roleName: string = "NOT_FOUND";
-            switch (roleOption.value) {
-                case "A":
-                    roleName = "PAM-A";
-                    break;
-                case "a":
-                    roleName = "PAM-A";
-                    break;
-                case "B":
-                    roleName = "PAM-B";
-                    break;
-                case "b":
-                    roleName = "PAM-B";
-                    break;
-                case "C":
-                    roleName = "PAM-C";
-                    break;
-                case "c":
-                    roleName = "PAM-C";
-                    break;
-                case "D":
-                    roleName = "PAM-D";
-                    break;
-                case "d":
-                    roleName = "PAM-D";
-                    break;
-                case "E":
-                    roleName = "PAM-E";
-                    break;
-                case "e":
-                    roleName = "PAM-E";
-                    break;
-                case "Z":
-                    roleName = "PAM-Z";
-                    break;
-                case "z":
-                    roleName = "PAM-Z";
-                    break;
-            }
-
+            let roleName = clanLetterToFullName(String(roleOption.value));
             const role = await getRoleByName(interaction, roleName);
+
             const joinMember = await getMemberById(
                 interaction,
                 String(userIdOption.value)
