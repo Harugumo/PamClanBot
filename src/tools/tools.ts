@@ -1,13 +1,12 @@
 import { CommandInteraction, GuildMember, Role } from "discord.js";
 
-
 /**
  * Renvoie le serveur associé à l'interaction, lance une erreur si le serveur n'existe pas.
  * @param interaction L'interaction command qui a appelé cette fonction.
  * @returns Le serveur associé à l'interaction.
  * @throws {Error} Si le serveur n'existe pas.
  */
-function getGuild(interaction: CommandInteraction) { 
+function getGuild(interaction: CommandInteraction) {
     if (!interaction.guild) {
         interaction.reply({
             content: "Cette commande doit être utilisée dans un serveur.",
@@ -20,7 +19,6 @@ function getGuild(interaction: CommandInteraction) {
     return interaction.guild;
 }
 
-
 /**
  * Retourne le rôle portant le nom donné ou throw une erreur si ce rôle n'existe pas.
  * @param interaction L'interaction command qui a appelé cette fonction.
@@ -28,24 +26,26 @@ function getGuild(interaction: CommandInteraction) {
  * @returns Le rôle portant le nom donné.
  * @throws {Error} Si le rôle n'existe pas.
  */
-async function getRoleByName(interaction: CommandInteraction, roleName: string) {
+async function getRoleByName(
+    interaction: CommandInteraction,
+    roleName: string
+) {
     let guild = getGuild(interaction);
     await guild.roles.fetch();
 
     const role = guild.roles.cache.find((r) => r.name === roleName);
 
-     if (!role) {
+    if (!role) {
         interaction.reply({
             content: `Le rôle ${roleName} ne semble pas existé !`,
             ephemeral: true,
         });
-            
+
         throw new Error(`Le rôle ${roleName} ne semble pas existé !`);
     }
 
     return role;
 }
-
 
 /**
  * Retourne les membres du serveur qui ont le rôle donné.
@@ -68,17 +68,20 @@ async function getMembersWithRole(interaction: CommandInteraction, role: Role) {
  * @returns Le membre du serveur qui a l'ID donné.
  * @throws {Error} Si le membre n'existe pas.
  */
-async function getMemberById(interaction: CommandInteraction, memberId: string) {
+async function getMemberById(
+    interaction: CommandInteraction,
+    memberId: string
+) {
     let guild = getGuild(interaction);
 
     const member = await guild.members.fetch(interaction.user.id);
 
-     if (!member) {
+    if (!member) {
         interaction.reply({
             content: `Le membre ${memberId} ne semble pas existé !`,
             ephemeral: true,
         });
-            
+
         throw new Error(`Le membre ${memberId} ne semble pas existé !`);
     }
 
@@ -93,17 +96,29 @@ async function getMemberById(interaction: CommandInteraction, memberId: string) 
  * @returns True si le membre a le rôle.
  * @throws {Error} Si le membre n'a pas le rôle.
  */
-function isAutorize(interaction: CommandInteraction, member: GuildMember, role: Role) {
-     if (!member.roles.cache.has(role.id)) {
-            interaction.reply({
-                content: "Vous n'avez pas la permission d'utiliser cette commande.",
-                ephemeral: true,
-            });
-            
-            throw new Error("Vous n'avez pas la permission d'utiliser cette commande.");
+function isAutorize(
+    interaction: CommandInteraction,
+    member: GuildMember,
+    role: Role
+) {
+    if (!member.roles.cache.has(role.id)) {
+        interaction.reply({
+            content: "Vous n'avez pas la permission d'utiliser cette commande.",
+            ephemeral: true,
+        });
+
+        throw new Error(
+            "Vous n'avez pas la permission d'utiliser cette commande."
+        );
     }
 
     return true;
 }
 
-export { getGuild, getRoleByName, getMembersWithRole, getMemberById, isAutorize };
+export {
+    getGuild,
+    getRoleByName,
+    getMembersWithRole,
+    getMemberById,
+    isAutorize,
+};

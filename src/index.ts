@@ -1,4 +1,4 @@
-import { Client, Collection, GatewayIntentBits, GuildApplicationCommandManager } from "discord.js";
+import { Client, Collection, GatewayIntentBits } from "discord.js";
 import * as dotenv from "dotenv";
 import { readdirSync } from "fs";
 import { join } from "path";
@@ -8,11 +8,11 @@ dotenv.config();
 
 const client = new Client({
     intents: [
-        GatewayIntentBits.Guilds,                       // Permission de rentrer dans des serveurs discord
-        GatewayIntentBits.GuildMembers,                 // Permission de voir les membres
-        GatewayIntentBits.GuildMessages,                // Permission d'envoyer des messages
-        GatewayIntentBits.GuildMessageReactions,        // Permission de reagir aux messages
-        GatewayIntentBits.MessageContent,               // Permission de lire le contenu des messages
+        GatewayIntentBits.Guilds, // Permission de rentrer dans des serveurs discord
+        GatewayIntentBits.GuildMembers, // Permission de voir les membres
+        GatewayIntentBits.GuildMessages, // Permission d'envoyer des messages
+        GatewayIntentBits.GuildMessageReactions, // Permission de reagir aux messages
+        GatewayIntentBits.MessageContent, // Permission de lire le contenu des messages
         GatewayIntentBits.GuildPresences,
     ],
 });

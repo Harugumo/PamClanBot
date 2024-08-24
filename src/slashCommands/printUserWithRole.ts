@@ -16,7 +16,7 @@ export const command: SlashCommand = {
     execute: async (interaction) => {
         const roleOption = interaction.options.get("role", true);
 
-        const role = await getRoleByName(interaction, String(roleOption.value)) 
+        const role = await getRoleByName(interaction, String(roleOption.value));
         const membersWithRole = await getMembersWithRole(interaction, role);
 
         let message = `Membres avec le rôle **${role.name}** :\n`;
