@@ -1,4 +1,4 @@
-import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { Client, Collection, GatewayIntentBits, GuildApplicationCommandManager } from "discord.js";
 import * as dotenv from "dotenv";
 import { readdirSync } from "fs";
 import { join } from "path";

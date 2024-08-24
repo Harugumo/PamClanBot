@@ -15,6 +15,7 @@ export const command: SlashCommand = {
                     .setDescription(`Latency: ${interaction.client.ws.ping}ms`)
                     .setColor([0, 255, 0]),
             ],
+            ephemeral: true,
         });
     },
 };
