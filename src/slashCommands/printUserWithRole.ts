@@ -1,6 +1,11 @@
 import { SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../../types";
-import { getMembersWithRole, getRoleByName } from "../tools/tools";
+import {
+    getMemberById,
+    getMembersWithRole,
+    getRoleByName,
+    isAutorize,
+} from "../tools/tools";
 
 export const command: SlashCommand = {
     name: "liste_des_utilisateurs",
@@ -16,6 +21,12 @@ export const command: SlashCommand = {
     execute: async (interaction) => {
         try {
             const roleOption = interaction.options.get("role", true);
+
+            isAutorize(
+                interaction,
+                await getMemberById(interaction, interaction.user.id),
+                await getRoleByName(interaction, process.env.OFFICIER_ROLE)
+            );
 
             const role = await getRoleByName(
                 interaction,
