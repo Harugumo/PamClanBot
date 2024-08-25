@@ -63,7 +63,7 @@ export const command: SlashCommand = {
             if (memberHasRoles(joinMember, roleClan)) {
                 sendErrorAndThrow(
                     interaction,
-                    `Le membre a déja le rôle ${roleName}`
+                    `Le membre <@${joinMember.user.id}> a déja le rôle ${roleName}`
                 );
             }
 
