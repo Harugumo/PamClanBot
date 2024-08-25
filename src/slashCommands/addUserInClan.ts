@@ -5,6 +5,7 @@ import {
     getRoleByName,
     isAutorize,
     memberHasRoles,
+    sendErrorAndThrow,
 } from "../tools/tools";
 import { clanLetterToFullName } from "../tools/clanLetterToFullName";
 
@@ -58,6 +59,13 @@ export const command: SlashCommand = {
                 interaction,
                 String(joinedMemberIdOption.value)
             );
+
+            if (memberHasRoles(joinMember, roleClan)) {
+                sendErrorAndThrow(
+                    interaction,
+                    `Le membre a déja le rôle ${roleName}`
+                );
+            }
 
             joinMember.roles.add(roleClan);
 

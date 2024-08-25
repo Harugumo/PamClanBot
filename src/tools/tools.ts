@@ -121,6 +121,21 @@ function isAutorize(
 }
 
 /**
+ * Envoie un message d'erreur éphémère à l'utilisateur qui a fait la commande, et lance une erreur.
+ * @param interaction L'interaction command qui a appelé cette fonction.
+ * @param message Le message d'erreur qui sera envoyé.
+ * @throws {Error} Le message d'erreur.
+ */
+function sendErrorAndThrow(interaction: CommandInteraction, message: string) {
+    interaction.reply({
+        content: message,
+        ephemeral: true,
+    });
+
+    throw new Error(message);
+}
+
+/**
  * Vérifie si un membre a un ou plusieurs rôles en particulier.
  * @param member Le membre que l'on veut vérifier.
  * @param roles Le ou les rôle que l'on cherche.
@@ -141,4 +156,5 @@ export {
     getMemberById,
     isAutorize,
     memberHasRoles,
+    sendErrorAndThrow,
 };
