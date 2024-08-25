@@ -7,19 +7,15 @@ import {
     memberHasRoles,
     sendErrorAndThrow,
 } from "../tools/tools";
-import { clanLetterToFullName } from "../tools/clanLetterToFullName";
+import { getWotPamClan } from "../tools/getWotPamClan";
 
 export const command: SlashCommand = {
     name: "clan-add",
     data: new SlashCommandBuilder()
         .setName("clan-add")
-        .setDescription("Liste des utilisateurs avec le role en paramêtre.")
-        .addStringOption((option) => {
-            return option
-                .setName("clan_lettre")
-                .setDescription("Lettre du clan Pamboum (A, B, C, D, E, Z)")
-                .setRequired(true);
-        })
+        .setDescription(
+            "Ajoute un membre au clan PAM par un officier du clan correspondant."
+        )
         .addStringOption((option) => {
             return option
                 .setName("user_id")
@@ -29,7 +25,6 @@ export const command: SlashCommand = {
 
     execute: async (interaction) => {
         try {
-            const roleOption = interaction.options.get("clan_lettre", true);
             const joinedMemberIdOption = interaction.options.get(
                 "user_id",
                 true
@@ -38,21 +33,19 @@ export const command: SlashCommand = {
                 interaction,
                 process.env.OFFICIER_ROLE
             );
-            const roleAdmin = await getRoleByName(
-                interaction,
-                process.env.ADMIN_ROLE
-            );
-            const member = await getMemberById(
+            const author = await getMemberById(
                 interaction,
                 interaction.user.id
             );
 
-            let roleName = clanLetterToFullName(String(roleOption.value));
-            const roleClan = await getRoleByName(interaction, roleName);
-
-            // Si l'utilisateur n'a pas le role admin, check si il a le role officier et si il possède aussi le rôle du clan demandé
-            if (!memberHasRoles(member, roleAdmin)) {
-                isAutorize(interaction, member, [roleOfficier, roleClan]);
+            isAutorize(interaction, author, roleOfficier);
+            const roleClan = getWotPamClan(author);
+            if (roleClan === null) {
+                sendErrorAndThrow(
+                    interaction,
+                    "L’officier n'est pas dans un clan"
+                );
+                return;
             }
 
             const joinMember = await getMemberById(
