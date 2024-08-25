@@ -74,7 +74,7 @@ async function getMemberById(
 ) {
     let guild = getGuild(interaction);
 
-    const member = await guild.members.fetch(interaction.user.id);
+    const member = await guild.members.fetch(memberId);
 
     if (!member) {
         interaction.reply({
@@ -89,19 +89,24 @@ async function getMemberById(
 }
 
 /**
- * Vérifie si le membre a le rôle donné, lance une erreur si ce n'est pas le cas.
+ * Vérifie si le membre a le ou les rôles donnés, lance une erreur si ce n'est pas le cas.
  * @param interaction L'interaction command qui a appelé cette fonction.
  * @param member Le membre qui a appelé cette fonction.
- * @param role Le rôle que l'on cherche.
+ * @param roles Le ou les rôles que l'on cherche.
  * @returns True si le membre a le rôle.
- * @throws {Error} Si le membre n'a pas le rôle.
+ * @throws {Error} Si le membre n'a pas les rôles.
  */
 function isAutorize(
     interaction: CommandInteraction,
     member: GuildMember,
-    role: Role
+    roles: Role | Role[]
 ) {
-    if (!member.roles.cache.has(role.id)) {
+    // Si roles est un tableau, on vérifie que le membre a tous les rôles spécifiés
+    const hasRoles = Array.isArray(roles)
+        ? roles.every((role) => member.roles.cache.has(role.id))
+        : member.roles.cache.has(roles.id);
+
+    if (!hasRoles) {
         interaction.reply({
             content: "Vous n'avez pas la permission d'utiliser cette commande.",
             ephemeral: true,
@@ -115,10 +120,25 @@ function isAutorize(
     return true;
 }
 
+/**
+ * Vérifie si un membre a un ou plusieurs rôles en particulier.
+ * @param member Le membre que l'on veut vérifier.
+ * @param roles Le ou les rôle que l'on cherche.
+ * @returns True si le membre a le ou les rôles.
+ */
+function memberHasRoles(member: GuildMember, roles: Role | Role[]) {
+    if (Array.isArray(roles)) {
+        return roles.every((role) => member.roles.cache.has(role.id));
+    }
+
+    return member.roles.cache.has((roles as Role).id);
+}
+
 export {
     getGuild,
     getRoleByName,
     getMembersWithRole,
     getMemberById,
     isAutorize,
+    memberHasRoles,
 };

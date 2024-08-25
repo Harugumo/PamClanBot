@@ -1,6 +1,11 @@
 import { SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../../types";
-import { getMemberById, getRoleByName, isAutorize } from "../tools/tools";
+import {
+    getMemberById,
+    getRoleByName,
+    isAutorize,
+    memberHasRoles,
+} from "../tools/tools";
 import { clanLetterToFullName } from "../tools/clanLetterToFullName";
 
 export const command: SlashCommand = {
@@ -24,30 +29,40 @@ export const command: SlashCommand = {
     execute: async (interaction) => {
         try {
             const roleOption = interaction.options.get("clan_lettre", true);
-            const userIdOption = interaction.options.get("user_id", true);
+            const joinedMemberIdOption = interaction.options.get(
+                "user_id",
+                true
+            );
             const roleOfficier = await getRoleByName(
                 interaction,
-                process.env.AUTORIZE_ROLE
+                process.env.OFFICIER_ROLE
+            );
+            const roleAdmin = await getRoleByName(
+                interaction,
+                process.env.ADMIN_ROLE
             );
             const member = await getMemberById(
                 interaction,
                 interaction.user.id
             );
 
-            isAutorize(interaction, member, roleOfficier);
-
             let roleName = clanLetterToFullName(String(roleOption.value));
-            const role = await getRoleByName(interaction, roleName);
+            const roleClan = await getRoleByName(interaction, roleName);
+
+            // Si l'utilisateur n'a pas le role admin, check si il a le role officier et si il possède aussi le rôle du clan demandé
+            if (!memberHasRoles(member, roleAdmin)) {
+                isAutorize(interaction, member, [roleOfficier, roleClan]);
+            }
 
             const joinMember = await getMemberById(
                 interaction,
-                String(userIdOption.value)
+                String(joinedMemberIdOption.value)
             );
 
-            joinMember.roles.add(role);
+            joinMember.roles.add(roleClan);
 
             await interaction.reply({
-                content: `Le membre <@${joinMember.user.id}> a été ajouté à ${role.name}`,
+                content: `Le membre <@${joinMember.user.id}> a été ajouté à ${roleClan.name}`,
             });
         } catch (error) {
             console.error(error);
