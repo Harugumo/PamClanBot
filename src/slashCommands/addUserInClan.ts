@@ -43,7 +43,7 @@ export const command: SlashCommand = {
             if (roleClan === null) {
                 sendErrorAndThrow(
                     interaction,
-                    "L’officier n'est pas dans un clan"
+                    "Vous n’êtes pas dans un clan PAM !"
                 );
                 return;
             }
