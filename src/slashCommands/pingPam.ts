@@ -4,9 +4,9 @@ import { EmbedBuilder } from "@discordjs/builders";
 import { getMemberById, getRoleByName, isAutorize } from "../tools/tools";
 
 export const command: SlashCommand = {
-    name: "pingpam",
+    name: "ping-pam",
     data: new SlashCommandBuilder()
-        .setName("pingpam")
+        .setName("ping-pam")
         .setDescription("PamBot replies with Boum!"),
     execute: async (interaction) => {
         isAutorize(
