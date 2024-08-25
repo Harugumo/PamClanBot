@@ -58,7 +58,7 @@ export const command: SlashCommand = {
                 );
             }
 
-            joinMember.roles.add(roleClan);
+            await joinMember.roles.add(roleClan);
 
             await interaction.reply({
                 content: `Le membre <@${joinMember.user.id}> a été ajouté à ${roleClan.name}`,

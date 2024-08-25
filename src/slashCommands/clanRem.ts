@@ -58,7 +58,7 @@ export const command: SlashCommand = {
                 );
             }
 
-            joinMember.roles.remove(roleClan);
+            await joinMember.roles.remove(roleClan);
 
             await interaction.reply({
                 content: `Le membre <@${joinMember.user.id}> a été retiré de ${roleClan.name}`,
