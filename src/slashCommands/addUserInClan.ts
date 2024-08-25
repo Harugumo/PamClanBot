@@ -13,9 +13,7 @@ export const command: SlashCommand = {
     name: "clan-add",
     data: new SlashCommandBuilder()
         .setName("clan-add")
-        .setDescription(
-            "Ajoute un membre au clan PAM par un officier du clan correspondant."
-        )
+        .setDescription("Ajoute un membre au clan PAM de l'officier.")
         .addStringOption((option) => {
             return option
                 .setName("user_id")

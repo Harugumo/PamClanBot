@@ -5,36 +5,43 @@ import {
     getMembersWithRole,
     getRoleByName,
     isAutorize,
+    sendErrorAndThrow,
 } from "../tools/tools";
+import { getWotPamClan } from "../tools/getWotPamClan";
 
 export const command: SlashCommand = {
-    name: "liste_des_utilisateurs",
+    name: "clan-list",
     data: new SlashCommandBuilder()
-        .setName("liste_des_utilisateurs")
-        .setDescription("Liste des utilisateurs avec le role en paramêtre.")
-        .addStringOption((option) => {
-            return option
-                .setName("role")
-                .setDescription("Role des utilisateurs")
-                .setRequired(true);
-        }),
+        .setName("clan-list")
+        .setDescription("Liste des membres du clan de l'officier"),
     execute: async (interaction) => {
         try {
-            const roleOption = interaction.options.get("role", true);
-
-            isAutorize(
+            const author = await getMemberById(
                 interaction,
-                await getMemberById(interaction, interaction.user.id),
-                await getRoleByName(interaction, process.env.OFFICIER_ROLE)
+                interaction.user.id
+            );
+            const roleOfficier = await getRoleByName(
+                interaction,
+                process.env.OFFICIER_ROLE
             );
 
-            const role = await getRoleByName(
-                interaction,
-                String(roleOption.value)
-            );
-            const membersWithRole = await getMembersWithRole(interaction, role);
+            isAutorize(interaction, author, roleOfficier);
 
-            let message = `Membres avec le rôle **${role.name}** :\n`;
+            const roleClan = getWotPamClan(author);
+            if (roleClan === null) {
+                sendErrorAndThrow(
+                    interaction,
+                    "Vous n’êtes pas dans un clan PAM !"
+                );
+                return;
+            }
+
+            const membersWithRole = await getMembersWithRole(
+                interaction,
+                roleClan
+            );
+
+            let message = `Membres avec le rôle **${roleClan.name}** :\n`;
             if (membersWithRole.size === 0) {
                 message += "Aucun membre trouvé avec ce rôle.";
             } else {
