@@ -14,7 +14,7 @@ export const command: SlashCommand = {
     name: "clan-rem",
     data: new SlashCommandBuilder()
         .setName("clan-rem")
-        .setDescription("Retirer un membre au clan PAM de l'officier.")
+        .setDescription("Retire un membre au clan PAM de l'officier.")
         .addStringOption((option) => {
             return option
                 .setName("user_id")
