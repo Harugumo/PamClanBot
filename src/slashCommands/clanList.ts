@@ -3,7 +3,7 @@ import { SlashCommand } from "../../types";
 import {
     getMemberById,
     getMembersWithRole,
-    getRoleByName,
+    getRoleById,
     isAutorize,
     sendErrorAndThrow,
 } from "../tools/tools";
@@ -20,9 +20,9 @@ export const command: SlashCommand = {
                 interaction,
                 interaction.user.id
             );
-            const roleOfficier = await getRoleByName(
+            const roleOfficier = await getRoleById(
                 interaction,
-                process.env.OFFICIER_ROLE
+                process.env.OFFICIER_ROLE_ID
             );
 
             isAutorize(interaction, author, roleOfficier);

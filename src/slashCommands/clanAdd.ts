@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../../types";
 import {
     getMemberById,
-    getRoleByName,
+    getRoleById,
     isAutorize,
     memberHasRoles,
     sendErrorAndThrow,
@@ -27,9 +27,9 @@ export const command: SlashCommand = {
                 "user_id",
                 true
             );
-            const roleOfficier = await getRoleByName(
+            const roleOfficier = await getRoleById(
                 interaction,
-                process.env.OFFICIER_ROLE
+                process.env.OFFICIER_ROLE_ID
             );
             const author = await getMemberById(
                 interaction,

@@ -48,6 +48,31 @@ async function getRoleByName(
 }
 
 /**
+ * Retourne le rôle portant l'id donné ou throw une erreur si ce rôle n'existe pas.
+ * @param interaction L'interaction command qui a appelé cette fonction.
+ * @param roleId L'id du rôle cherché.
+ * @returns Le rôle portant l'id donné.
+ * @throws {Error} Si le rôle n'existe pas.
+ */
+async function getRoleById(interaction: CommandInteraction, roleId: string) {
+    let guild = getGuild(interaction);
+    await guild.roles.fetch();
+
+    const role = guild.roles.cache.find((r) => r.id === roleId);
+
+    if (!role) {
+        interaction.reply({
+            content: `Le rôle avec l'id ${roleId} ne semble pas existé !`,
+            ephemeral: true,
+        });
+
+        throw new Error(`Le rôle avec l'id ${roleId} ne semble pas existé !`);
+    }
+
+    return role;
+}
+
+/**
  * Retourne les membres du serveur qui ont le rôle donné.
  * @param interaction L'interaction command qui a appelé cette fonction.
  * @param role Le rôle que l'on cherche.
@@ -151,6 +176,7 @@ function memberHasRoles(member: GuildMember, roles: Role | Role[]) {
 
 export {
     getGuild,
+    getRoleById,
     getRoleByName,
     getMembersWithRole,
     getMemberById,

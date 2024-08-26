@@ -1,5 +1,5 @@
 {
-  "name": "quentin.perret",
+  "name": "pam-bot",
   "version": "1.0.0",
   "description": "Un bot de test afin de récupérer des utilisateurs via leurs rôles",
   "main": "index.ts",

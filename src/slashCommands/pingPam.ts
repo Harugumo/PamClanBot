@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../../types";
 import { EmbedBuilder } from "@discordjs/builders";
-import { getMemberById, getRoleByName, isAutorize } from "../tools/tools";
+import { getMemberById, getRoleById, isAutorize } from "../tools/tools";
 
 export const command: SlashCommand = {
     name: "ping-pam",
@@ -12,7 +12,7 @@ export const command: SlashCommand = {
         isAutorize(
             interaction,
             await getMemberById(interaction, interaction.user.id),
-            await getRoleByName(interaction, process.env.OFFICIER_ROLE)
+            await getRoleById(interaction, process.env.OFFICIER_ROLE_ID)
         );
 
         await interaction.reply({
