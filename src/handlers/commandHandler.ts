@@ -17,6 +17,8 @@ module.exports = async (client: Client) => {
 
         body.push(command.data.toJSON());
         client.slashCommands.set(command.name, command);
+
+        console.log(`Command ${command.name} has been loaded!`);
     });
 
     const rest = new REST({
