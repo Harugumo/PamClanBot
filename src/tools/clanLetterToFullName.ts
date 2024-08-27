@@ -1,3 +1,8 @@
+/**
+ * Return the full name of the Wot Pam clan from a letter.
+ * @param letter The letter of the clan.
+ * @returns The full name of the clan, or "NOT_FOUND" if the letter is not recognized.
+ */
 function clanLetterToFullName(letter: string) {
     let roleName: string = "NOT_FOUND";
     switch (letter) {
